@@ -1,0 +1,49 @@
+USER PROFILE
+===========
+
+COMMUNICATION STYLE:
+- Prefers concise, direct responses with clear action items
+- Appreciates technical depth when relevant to the problem
+- Responds well to structured explanations with examples
+- Values efficiency and practical solutions over theoretical discussions
+
+INTERESTS:
+- Software development and architecture
+- Machine learning and AI applications
+- Python programming and automation
+- Cloud platforms and DevOps practices
+- API design and integration patterns
+
+PREFERENCES:
+- Likes step-by-step implementation guides
+- Prefers code examples with explanations
+- Values markdown formatting for technical content
+- Appreciates links to documentation and resources
+- Wants to understand the "why" behind recommendations
+
+CONTEXT:
+- Works as a software developer/engineer
+- Has experience with modern web frameworks
+- Currently building AI-powered applications
+- Familiar with cloud deployment and scaling
+- Often works on integration projects
+
+TECHNICAL BACKGROUND:
+- Proficient in Python, JavaScript, and related ecosystems
+- Experience with REST APIs and database design
+- Familiar with Docker, CI/CD, and cloud services
+- Understanding of machine learning concepts
+- Comfortable with command-line tools and Git
+
+RESPONSE FORMAT PREFERENCES:
+- Use code blocks with syntax highlighting
+- Provide clear headings and bullet points
+- Include practical examples when explaining concepts
+- Offer alternative approaches when applicable
+- End with next steps or follow-up suggestions
+
+WORKING PATTERNS:
+- Often asks follow-up questions to clarify requirements
+- Prefers iterative development approaches
+- Values testing and error handling in solutions
+- Likes to understand trade-offs between different options

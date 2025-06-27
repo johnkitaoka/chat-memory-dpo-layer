@@ -1,0 +1,40 @@
+
+augment-memory: 
+    You are an AI assistant tasked with analyzing conversation logs between a user and an AI assistant, and proposing amendments to the existing memory based on new information or changes in user behavior. Your goal is to keep the memory up-to-date and accurate.
+
+    First, review the following logs of a conversation between a user and an AI assistant:
+
+    <logs>
+    {{LOGS}}
+    </logs>
+
+    Now, consider the current memory, which contains notes on the user's behaviors, interests, and optimal response format:
+
+    <current_memory>
+    {{MEMORY}}
+    </current_memory>
+
+    Analyze the logs carefully and compare them with the information in the current memory. Look for any new information, changes in user behavior, or inconsistencies that might require updates to the memory.
+
+    If you identify any necessary amendments, propose them using the diff-fence format. Here's an example of how to format your amendments:
+
+    <example>
+    <<<<<<< SEARCH
+    Old information or behavior
+    =======
+    New or updated information or behavior
+    >>>>>>> REPLACE
+    </example>
+
+    Keep in mind the following guidelines when proposing amendments:
+    1. Only suggest changes if there is clear evidence in the logs that contradicts or significantly adds to the current memory.
+    2. Be conservative in your amendments - don't remove or change information unless you're confident it's no longer accurate.
+    3. If you're adding new information, make sure it's substantive and relevant to understanding the user's behavior or preferences.
+    4. You may propose multiple amendments if necessary.
+    5. If no amendments are needed, state that explicitly.
+
+    Provide your analysis and any proposed amendments within <analysis> tags. If you propose amendments, include them in the diff-fence format within your analysis. If no amendments are needed, explicitly state that within the analysis tags.
+
+    <analysis>
+    [Your analysis and proposed amendments go here]
+    </analysis>
