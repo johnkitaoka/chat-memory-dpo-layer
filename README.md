@@ -1,64 +1,91 @@
 # LLM Memory System
 
-A simple Python repository for managing LLM memory in a text-based format. This system helps chatbot developers easily implement personalized memory by maintaining a user profile that can be injected into system prompts.
+**Automatically learn user preferences from chat logs and inject personalized context into any chatbot.** This system analyzes conversations to build user profiles that make your AWS Bedrock, Knowledge Base, or any LLM-powered chatbot more personalized and effective.
 
-## Features
+## What It Does
 
-- **Text-based Memory Storage**: Simple, human-readable memory.txt format
-- **Chat Log Processing**: Automated analysis of conversation logs
-- **Claude 3.5 Haiku Integration**: Uses Anthropic's efficient model for memory updates
-- **Diff-based Updates**: Precise memory amendments using search/replace format
-- **Easy Integration**: Minimal setup for existing chatbot systems
+- **Learns Automatically**: Processes chat logs to understand user communication style, preferences, and context
+- **Works Everywhere**: Inject memory context into Amazon Bedrock, Knowledge Bases, or any chatbot system
+- **Simple Integration**: Add one line to your prompts to get personalized responses
+- **Production Ready**: Handles real conversations, maintains backups, and scales with your application
 
-## Quick Start
+## Quick Start (5 Minutes)
 
-1. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+# 1. Install
+pip install -r requirements.txt
 
-2. **Set up API Key**
-   ```bash
-   export ANTHROPIC_API_KEY="your-api-key-here"
-   # Or create a .env file with ANTHROPIC_API_KEY=your-api-key-here
-   ```
+# 2. Set API key (get free key at console.anthropic.com)
+export ANTHROPIC_API_KEY="your-api-key-here"
 
-3. **Initialize Memory**
-   ```bash
-   python scripts/init_memory.py
-   ```
+# 3. Initialize system
+python scripts/init_memory.py
 
-4. **Process Chat Logs**
-   ```bash
-   python scripts/process_logs.py --log-file logs/sample_chat.log
-   ```
+# 4. Process sample conversations
+python scripts/process_logs.py --log-file sample_chat.log
 
-5. **Test Memory System**
-   ```bash
-   python scripts/test_memory.py
-   ```
-
-## Project Structure
-
+# 5. See it work
+python scripts/demo.py
 ```
-memory/
-├── README.md                 # This file
-├── requirements.txt          # Python dependencies
-├── prompts.yaml             # LLM prompts for memory processing
-├── config.py                # Configuration settings
-├── memory.txt               # User memory file (created after init)
-├── scripts/                 # Main scripts
-│   ├── init_memory.py       # Initialize memory system
-│   ├── process_logs.py      # Process chat logs to update memory
-│   └── test_memory.py       # Test and demonstrate the system
-├── logs/                    # Sample chat logs
-│   ├── sample_chat.log      # Example conversation
-│   └── sample_chat_2.log    # Another example
-└── src/                     # Core library code
-    ├── __init__.py
-    ├── memory_manager.py    # Memory file operations
-    ├── log_processor.py     # Chat log parsing
-    └── claude_client.py     # Anthropic API integration
+
+## AWS Bedrock Integration
+
+### Option 1: Direct Prompt Injection (Recommended)
+
+```python
+import boto3
+from src.memory_manager import MemoryManager
+
+# Initialize Bedrock and memory
+bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+memory = MemoryManager()
+
+# Get personalized context
+user_context = memory.get_context_for_prompt()
+
+# Inject into your Bedrock prompt
+prompt = f"""{user_context}
+
+User Question: {user_question}
+
+Please provide a helpful response based on the user context above."""
+
+# Call Bedrock
+response = bedrock.invoke_model(
+    modelId='anthropic.claude-3-5-haiku-20241022-v1:0',
+    body=json.dumps({
+        'anthropic_version': 'bedrock-2023-05-31',
+        'max_tokens': 1000,
+        'messages': [{'role': 'user', 'content': prompt}]
+    })
+)
+```
+
+### Option 2: Knowledge Base Integration
+
+```python
+# For Bedrock Knowledge Bases, add memory to system instructions
+knowledge_base = boto3.client('bedrock-agent-runtime')
+
+# Get memory context
+user_context = memory.get_context_for_prompt()
+
+# Query with personalized context
+response = knowledge_base.retrieve_and_generate(
+    input={'text': user_question},
+    retrieveAndGenerateConfiguration={
+        'type': 'KNOWLEDGE_BASE',
+        'knowledgeBaseConfiguration': {
+            'knowledgeBaseId': 'your-kb-id',
+            'modelArn': 'arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-haiku-20241022-v1:0',
+            'generationConfiguration': {
+                'additionalModelRequestFields': {
+                    'system': user_context  # Inject memory here
+                }
+            }
+        }
+    }
+)
 ```
 
 ## Memory File Format
